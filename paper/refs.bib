@@ -1,0 +1,135 @@
+% Bibliography for "Massively Parallel Conway's Game of Life on AiMOS"
+%
+% Entries flagged with "% VERIFY" should be double-checked against the
+% actual publication record before submission. DOIs or page numbers
+% that I am not 100% certain about are left out rather than guessed.
+
+@article{gardner1970,
+  author    = {Gardner, Martin},
+  title     = {Mathematical Games: The fantastic combinations of John Conway's new solitaire game ``life''},
+  journal   = {Scientific American},
+  volume    = {223},
+  number    = {4},
+  pages     = {120--123},
+  year      = {1970},
+  publisher = {Scientific American}
+}
+
+@misc{gosper1984hashlife, % VERIFY citation form (Gosper's HashLife)
+  author = {Gosper, R. William},
+  title  = {Exploiting Regularities in Large Cellular Spaces},
+  year   = {1984},
+  note   = {Physica D 10, 75--80}
+}
+
+@inproceedings{lee2010debunking,
+  author    = {Lee, Victor W. and Kim, Changkyu and Chhugani, Jatin and Deisher, Michael and Kim, Daehyun and Nguyen, Anthony D. and Satish, Nadathur and Smelyanskiy, Mikhail and Chennupaty, Srinivas and Hammarlund, Per and Singhal, Ronak and Dubey, Pradeep},
+  title     = {Debunking the 100{X} {GPU} vs. {CPU} Myth: An Evaluation of Throughput Computing on {CPU} and {GPU}},
+  booktitle = {Proc. 37th Int. Symp. on Computer Architecture (ISCA)},
+  year      = {2010},
+  pages     = {451--460},
+  publisher = {ACM},
+  doi       = {10.1145/1815961.1816021}
+}
+
+@inproceedings{datta2008stencil,
+  author    = {Datta, Kaushik and Murphy, Mark and Volkov, Vasily and Williams, Samuel and Carter, Jonathan and Oliker, Leonid and Patterson, David and Shalf, John and Yelick, Katherine},
+  title     = {Stencil Computation Optimization and Auto-tuning on State-of-the-Art Multicore Architectures},
+  booktitle = {Proc. ACM/IEEE Conf. on Supercomputing (SC)},
+  year      = {2008},
+  publisher = {IEEE Press},
+  doi       = {10.1109/SC.2008.5222004}
+}
+
+@article{williams2009roofline,
+  author    = {Williams, Samuel and Waterman, Andrew and Patterson, David},
+  title     = {Roofline: An Insightful Visual Performance Model for Multicore Architectures},
+  journal   = {Communications of the ACM},
+  volume    = {52},
+  number    = {4},
+  pages     = {65--76},
+  year      = {2009},
+  doi       = {10.1145/1498765.1498785}
+}
+
+@inproceedings{gysi2015modesto, % VERIFY -- stencil overlap study
+  author    = {Gysi, Tobias and Grosser, Tobias and Hoefler, Torsten},
+  title     = {{MODESTO}: Data-centric Analytic Optimization of Complex Stencil Programs on Heterogeneous Architectures},
+  booktitle = {Proc. 29th ACM Int. Conf. on Supercomputing (ICS)},
+  year      = {2015},
+  pages     = {177--186},
+  doi       = {10.1145/2751205.2751223}
+}
+
+@inproceedings{maruyama2014physis, % VERIFY
+  author    = {Maruyama, Naoya and Aoki, Takayuki},
+  title     = {Optimizing Stencil Computations for {NVIDIA} {Kepler} {GPU}s},
+  booktitle = {Proc. 1st Int. Workshop on High-Performance Stencil Computations (HiStencils)},
+  year      = {2014}
+}
+
+@article{micikevicius20093d,
+  author    = {Micikevicius, Paulius},
+  title     = {{3D} Finite Difference Computation on {GPU}s using {CUDA}},
+  journal   = {Proc. 2nd Workshop on General Purpose Processing on GPUs (GPGPU-2)},
+  year      = {2009},
+  pages     = {79--84},
+  doi       = {10.1145/1513895.1513905}
+}
+
+@inproceedings{wang2014mpicuda, % VERIFY -- representative CUDA-aware MPI overlap paper
+  author    = {Wang, Hao and Potluri, Sreeram and Bureddy, Devendar and Rosales, Carlos and Panda, Dhabaleswar K.},
+  title     = {{GPU}-Aware {MPI} on {RDMA}-Enabled Clusters: Design, Implementation and Evaluation},
+  booktitle = {IEEE Trans. on Parallel and Distributed Systems},
+  year      = {2014},
+  doi       = {10.1109/TPDS.2013.222}
+}
+
+@inproceedings{thakur2005mpiio,
+  author    = {Thakur, Rajeev and Gropp, William and Lusk, Ewing},
+  title     = {Data Sieving and Collective {I}/{O} in {ROMIO}},
+  booktitle = {Proc. 7th Symp. on the Frontiers of Massively Parallel Computation},
+  year      = {1999},
+  pages     = {182--189},
+  doi       = {10.1109/FMPC.1999.750599}
+}
+
+@inproceedings{hoefler2010overlap, % VERIFY exact title
+  author    = {Hoefler, Torsten and Lumsdaine, Andrew},
+  title     = {Message Progression in Parallel Computing -- To Thread or not to Thread?},
+  booktitle = {IEEE Int. Conf. on Cluster Computing},
+  year      = {2008},
+  pages     = {213--222},
+  doi       = {10.1109/CLUSTR.2008.4663774}
+}
+
+@misc{aimosdocs,
+  title   = {{AiMOS} {DCS} Supercomputer User Documentation},
+  author  = {{Center for Computational Innovations, RPI}},
+  year    = {2024},
+  howpublished = {\url{https://docs.cci.rpi.edu/clusters/DCS_Supercomputer/}},
+  note    = {Accessed April 2026}
+}
+
+@inproceedings{millan2018gol, % VERIFY -- representative recent GoL on GPU
+  author    = {Mill{\'a}n, Em{\'\i}lio and Mac{\'\i}as, Elsa M. and Su{\'a}rez, {\'A}lvaro},
+  title     = {High-Performance {Game of Life} simulation using {CUDA}},
+  booktitle = {Int. Conf. on High Performance Computing \& Simulation (HPCS)},
+  year      = {2018}
+}
+
+@inproceedings{kamil2010autotune,
+  author    = {Kamil, Shoaib and Chan, Cy and Oliker, Leonid and Shalf, John and Williams, Samuel},
+  title     = {An Auto-Tuning Framework for Parallel Multicore Stencil Computations},
+  booktitle = {IEEE Int. Symp. on Parallel \& Distributed Processing (IPDPS)},
+  year      = {2010},
+  doi       = {10.1109/IPDPS.2010.5470421}
+}
+
+@inproceedings{shimokawabe2011peta,
+  author    = {Shimokawabe, Takashi and Aoki, Takayuki and Muroi, Chiashi and Ishida, Junichi and Kawano, Kohei and Endo, Toshio and Nukada, Akira and Maruyama, Naoya and Matsuoka, Satoshi},
+  title     = {An 80-Fold Speedup, 15.0 {TFlops} Full {GPU} Acceleration of Non-Hydrostatic Weather Model {ASUCA} Production Code},
+  booktitle = {Proc. ACM/IEEE Conf. on Supercomputing (SC)},
+  year      = {2010},
+  doi       = {10.1109/SC.2010.9}
+}
