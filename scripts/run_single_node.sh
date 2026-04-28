@@ -3,14 +3,11 @@
 #
 # Usage:
 #   sbatch scripts/run_single_node.sh <ranks> <W> <H> <steps> <mode> <kernel> <label>
-#
-# Edit RCS_ID below if needed; also confirm the AiMOS allocation.
 
-#SBATCH --partition=dcs
-#SBATCH --nodes=1
-#SBATCH --gres=gpu:6
-#SBATCH --time=00:30:00
 #SBATCH --job-name=gol_single
+#SBATCH --nodes=1
+#SBATCH --ntasks=6
+#SBATCH --time=00:30:00
 #SBATCH --output=bench/results/slurm-%j.out
 
 RCS_ID=PCPGbrnr

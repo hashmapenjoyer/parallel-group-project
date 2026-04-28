@@ -20,25 +20,25 @@ for R in 1 2 4 6; do
 done
 for R in 12 24 48; do
     NODES=$(( (R + 5) / 6 ))
-    sbatch --export=ALL --nodes=$NODES $SCRIPTS/run_multi_node.sh $R 32768 32768 1000 gpu overlap strong_${R}
+    sbatch --export=ALL --nodes=$NODES --ntasks=$R $SCRIPTS/run_multi_node.sh $R 32768 32768 1000 gpu overlap strong_${R}
 done
 
 # ---- weak scaling -----------------------------------------------------------
 # Per-rank work fixed at ~8192^2; global grid grows with sqrt(ranks).
 sbatch --export=ALL $SCRIPTS/run_single_node.sh  1  8192  8192 1000 gpu overlap weak_1
 sbatch --export=ALL $SCRIPTS/run_single_node.sh  4 16384 16384 1000 gpu overlap weak_4
-sbatch --export=ALL --nodes=3 $SCRIPTS/run_multi_node.sh 16 32768 32768 1000 gpu overlap weak_16
+sbatch --export=ALL --nodes=3 --ntasks=16 $SCRIPTS/run_multi_node.sh 16 32768 32768 1000 gpu overlap weak_16
 
 # ---- CPU vs hybrid (same grid, both modes) ----------------------------------
 for R in 1 4; do
     sbatch --export=ALL $SCRIPTS/run_single_node.sh $R 8192 8192 500 cpu naive   cpu_${R}
     sbatch --export=ALL $SCRIPTS/run_single_node.sh $R 8192 8192 500 gpu overlap gpu_${R}
 done
-sbatch --export=ALL --nodes=3 $SCRIPTS/run_multi_node.sh 16 8192 8192 500 cpu naive   cpu_16
-sbatch --export=ALL --nodes=3 $SCRIPTS/run_multi_node.sh 16 8192 8192 500 gpu overlap gpu_16
+sbatch --export=ALL --nodes=3 --ntasks=16 $SCRIPTS/run_multi_node.sh 16 8192 8192 500 cpu naive   cpu_16
+sbatch --export=ALL --nodes=3 --ntasks=16 $SCRIPTS/run_multi_node.sh 16 8192 8192 500 gpu overlap gpu_16
 
 # ---- per-phase breakdown (16 ranks, 32K grid) -------------------------------
-sbatch --export=ALL --nodes=3 $SCRIPTS/run_multi_node.sh 16 32768 32768 1000 gpu overlap breakdown_16
+sbatch --export=ALL --nodes=3 --ntasks=16 $SCRIPTS/run_multi_node.sh 16 32768 32768 1000 gpu overlap breakdown_16
 
 # ---- single-GPU kernel sweep ------------------------------------------------
 for W in 256 1024 4096 16384; do

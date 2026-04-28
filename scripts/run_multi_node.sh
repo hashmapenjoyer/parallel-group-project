@@ -1,15 +1,14 @@
 #!/bin/bash
 # Multi-node (12-48 ranks across 2/4/8 DCS nodes) submission template.
 #
-# Usage:
-#   sbatch --nodes=$N scripts/run_multi_node.sh <ranks> <W> <H> <steps> <mode> <kernel> <label>
+# Pass --nodes=N on the sbatch command line; ntasks scales as 6*N.
 #
-# Total ranks should equal nodes * 6.
+# Usage:
+#   sbatch --nodes=$N --ntasks=$((N*6)) scripts/run_multi_node.sh \
+#          <ranks> <W> <H> <steps> <mode> <kernel> <label>
 
-#SBATCH --partition=dcs
-#SBATCH --gres=gpu:6
-#SBATCH --time=01:00:00
 #SBATCH --job-name=gol_multi
+#SBATCH --time=01:00:00
 #SBATCH --output=bench/results/slurm-%j.out
 
 RCS_ID=PCPGbrnr
