@@ -8,11 +8,13 @@
 #          <ranks> <W> <H> <steps> <mode> <kernel> <label>
 
 #SBATCH --job-name=gol_multi
+#SBATCH --partition=dcs-2024
+#SBATCH --gres=gpu:6
 #SBATCH --time=01:00:00
 #SBATCH --output=bench/results/slurm-%j.out
 
 RCS_ID=PCPGbrnr
-PROJ=/gpfs/u/scratch/${RCS_ID}/parallel-group-project
+PROJ=/gpfs/u/home/PCPG/${RCS_ID}/scratch/parallel-group-project
 
 RANKS=${1:-24}
 W=${2:-32768}
@@ -29,7 +31,7 @@ cd $PROJ
 mkdir -p bench/results
 
 for TRIAL in 1 2 3; do
-    jsrun -n $RANKS -a 1 -c 4 -g 1 \
+    mpirun -gpu -n $RANKS \
         ./bin/gol_mpi_cuda \
             --w $W --h $H --steps $STEPS \
             --mode $MODE --kernel $KERNEL \

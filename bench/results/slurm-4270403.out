@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] breakdown_16 ranks=16 dims=4x4 32768x32768 steps=1000 -> total=0.9078s halo=0.8800s kernel=0.0277s io=0.0000s
+[gol] breakdown_16 ranks=16 dims=4x4 32768x32768 steps=1000 -> total=0.8755s halo=0.8483s kernel=0.0272s io=0.0000s
+[gol] breakdown_16 ranks=16 dims=4x4 32768x32768 steps=1000 -> total=0.8789s halo=0.8519s kernel=0.0269s io=0.0000s

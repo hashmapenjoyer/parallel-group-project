@@ -1,0 +1,75 @@
+commit: a772263dd7017d38434ef449f777a902733ad12f
+branch: blaehahhhh
+
+git status --short:
+M  Makefile
+M  README.md
+ M bench/results/results.csv
+MM bench/run_all.sh
+ M bin/diff_grids
+ M bin/gol_serial
+M  include/gol_kernel.h
+MM include/gol_mpi.h
+MM scripts/run_debug.sh
+MM scripts/run_multi_node.sh
+MM scripts/run_single_node.sh
+M  src/gol_cuda.cu
+MM src/gol_mpi.c
+ M src/main.c
+?? bench/handoff_20260428/
+?? bench/results/ref.pbm
+?? bench/results/ref_random.pbm
+?? bench/results/ref_rp.pbm
+?? bench/results/slurm-4270349.out
+?? bench/results/slurm-4270350.out
+?? bench/results/slurm-4270351.out
+?? bench/results/slurm-4270352.out
+?? bench/results/slurm-4270353.out
+?? bench/results/slurm-4270354.out
+?? bench/results/slurm-4270355.out
+?? bench/results/slurm-4270356.out
+?? bench/results/slurm-4270357.out
+?? bench/results/slurm-4270358.out
+?? bench/results/slurm-4270359.out
+?? bench/results/slurm-4270360.out
+?? bench/results/slurm-4270361.out
+?? bench/results/slurm-4270362.out
+?? bench/results/slurm-4270363.out
+?? bench/results/slurm-4270364.out
+?? bench/results/slurm-4270365.out
+?? bench/results/slurm-4270366.out
+?? bench/results/slurm-4270367.out
+?? bench/results/slurm-4270368.out
+?? bench/results/slurm-4270369.out
+?? bench/results/slurm-4270370.out
+?? bench/results/slurm-4270371.out
+?? bench/results/slurm-4270372.out
+?? bench/results/slurm-4270373.out
+?? bench/results/slurm-4270374.out
+?? bench/results/slurm-4270375.out
+?? bench/results/slurm-4270376.out
+?? bench/results/slurm-4270377.out
+?? bench/results/slurm-4270402.out
+?? bench/results/slurm-4270403.out
+?? bench/results/slurm-4270408.out
+?? bench/results/submit.log
+?? bench/results/test.pbm
+?? bench/results/test_4rank_rp.pbm
+?? bench/results/test_naive_random.pbm
+?? bench/results/test_naive_rp.pbm
+?? bench/results/test_overlap_random.pbm
+?? bench/results/test_overlap_rp.pbm
+?? bench/results/test_shared_random.pbm
+?? bench/results/test_shared_rp.pbm
+?? bin/gol_cpu_step.o
+?? bin/gol_cuda.o
+?? bin/gol_io.o
+?? bin/gol_mpi.o
+?? bin/gol_mpi_cpu
+?? bin/gol_mpi_cuda
+?? bin/gol_mpi_gpu.o
+?? bin/main_cpu.o
+?? bin/main_gpu.o
+?? scripts/dump_slurms.sh
+?? scripts/make_handoff.sh
+?? scripts/run_verify.sh

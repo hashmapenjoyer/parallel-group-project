@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] strong_1 ranks=1 dims=1x1 24576x24576 steps=1000 -> total=5.2462s halo=5.2041s kernel=0.0420s io=0.0000s
+[gol] strong_1 ranks=1 dims=1x1 24576x24576 steps=1000 -> total=5.2411s halo=5.1985s kernel=0.0425s io=0.0000s
+[gol] strong_1 ranks=1 dims=1x1 24576x24576 steps=1000 -> total=5.2284s halo=5.1857s kernel=0.0427s io=0.0000s

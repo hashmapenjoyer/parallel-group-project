@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] gpu_16 ranks=16 dims=4x4 8192x8192 steps=500 -> total=0.2027s halo=0.1861s kernel=0.0166s io=0.0000s
+[gol] gpu_16 ranks=16 dims=4x4 8192x8192 steps=500 -> total=0.2099s halo=0.1952s kernel=0.0146s io=0.0000s
+[gol] gpu_16 ranks=16 dims=4x4 8192x8192 steps=500 -> total=0.2015s halo=0.1880s kernel=0.0134s io=0.0000s

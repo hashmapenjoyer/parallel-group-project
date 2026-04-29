@@ -92,17 +92,31 @@ int main(int argc, char** argv) {
     parse_args(argc, argv, &a);
 
     gol_topology_t topo;
-    gol_topology_init(&topo, a.global_w, a.global_h);
-
+    /* Resolve rank before topology init so we can bind the GPU first --
+     * gol_topology_init() does cudaMalloc for halo scratch when on_device,
+     * and Spectrum MPI's CUDA-aware path rejects device pointers whose
+     * CUcontext doesn't match the rank's bound device with MPI_ERR_BUFFER. */
+    int world_rank = 0;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    int use_gpu = !strcmp(a.mode, "gpu");
 #ifdef USE_CUDA
     int n_devices = 0;
     cudaGetDeviceCount(&n_devices);
-    if (n_devices > 0) cudaSetDevice(topo.rank % n_devices);
+    if (n_devices > 0) cudaSetDevice(world_rank % n_devices);
+    if (use_gpu && n_devices == 0 && world_rank == 0) {
+        fprintf(stderr, "warning: --mode gpu but no CUDA device visible; falling back to CPU\n");
+        use_gpu = 0;
+    }
+#else
+    if (use_gpu && world_rank == 0)
+        fprintf(stderr, "warning: built without USE_CUDA; falling back to CPU\n");
+    use_gpu = 0;
 #endif
+
+    gol_topology_init(&topo, a.global_w, a.global_h, use_gpu);
 
     size_t bytes = topo.alloc_w * topo.alloc_h;
     uint8_t *cur = NULL, *nxt = NULL;
-    int use_gpu = !strcmp(a.mode, "gpu");
 
 #ifdef USE_CUDA
     if (use_gpu) {
@@ -111,10 +125,6 @@ int main(int argc, char** argv) {
         cudaMemset(cur, 0, bytes);
         cudaMemset(nxt, 0, bytes);
     } else
-#else
-    if (use_gpu && topo.rank == 0)
-        fprintf(stderr, "warning: built without USE_CUDA; falling back to CPU\n");
-    use_gpu = 0;
 #endif
     {
         cur = (uint8_t*)calloc(bytes, 1);
@@ -166,7 +176,12 @@ int main(int argc, char** argv) {
             uint64_t h1 = clock_now();
             if (shared) gol_step_gpu_shared(cur, nxt, topo.local_w, topo.local_h, 0);
             else        gol_step_gpu       (cur, nxt, topo.local_w, topo.local_h, 0);
-            cudaStreamSynchronize(0);
+            cudaError_t kerr = cudaGetLastError();
+            cudaError_t serr = cudaStreamSynchronize(0);
+            if (s == 0 && topo.rank == 0 && (kerr != cudaSuccess || serr != cudaSuccess)) {
+                fprintf(stderr, "[gol] cuda error: launch=%s sync=%s\n",
+                        cudaGetErrorString(kerr), cudaGetErrorString(serr));
+            }
             uint64_t k1 = clock_now();
             t_halo += clock_seconds(h0, h1);
             t_kernel += clock_seconds(h1, k1);
@@ -263,3 +278,4 @@ int main(int argc, char** argv) {
     MPI_Finalize();
     return 0;
 }
+

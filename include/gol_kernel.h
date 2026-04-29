@@ -30,6 +30,14 @@ void gol_step_gpu_interior(const uint8_t* d_in, uint8_t* d_out,
 void gol_step_gpu_boundary(const uint8_t* d_in, uint8_t* d_out,
                            int lw, int lh, cudaStream_t stream);
 
+/* Pack a strided column of `height` bytes from `src` (stride = `stride`)
+ * into a contiguous device buffer `dst`. Spectrum MPI's host-side pack
+ * cannot read device pointers, so we pack manually before MPI_Isend. */
+void gol_pack_col(uint8_t* dst, const uint8_t* src, int stride, int height,
+                  cudaStream_t stream);
+void gol_unpack_col(uint8_t* dst, int stride, const uint8_t* src, int height,
+                    cudaStream_t stream);
+
 #ifdef __cplusplus
 }
 #endif

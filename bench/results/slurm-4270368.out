@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] ksweep_shared_256 ranks=1 dims=1x1 256x256 steps=500 -> total=0.0291s halo=0.0221s kernel=0.0070s io=0.0000s
+[gol] ksweep_shared_256 ranks=1 dims=1x1 256x256 steps=500 -> total=0.0293s halo=0.0222s kernel=0.0070s io=0.0000s
+[gol] ksweep_shared_256 ranks=1 dims=1x1 256x256 steps=500 -> total=0.0296s halo=0.0224s kernel=0.0072s io=0.0000s

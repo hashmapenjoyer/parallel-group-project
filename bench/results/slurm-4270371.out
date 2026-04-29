@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] ksweep_naive_4096 ranks=1 dims=1x1 4096x4096 steps=500 -> total=0.1073s halo=0.0231s kernel=0.0841s io=0.0000s
+[gol] ksweep_naive_4096 ranks=1 dims=1x1 4096x4096 steps=500 -> total=0.1020s halo=0.0225s kernel=0.0795s io=0.0000s
+[gol] ksweep_naive_4096 ranks=1 dims=1x1 4096x4096 steps=500 -> total=0.1004s halo=0.0225s kernel=0.0779s io=0.0000s

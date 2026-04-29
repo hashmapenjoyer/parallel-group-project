@@ -1,0 +1,8 @@
+slurmstepd: error: Prolog hung on node dcs193
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] weak_4 ranks=4 dims=2x2 16384x16384 steps=1000 -> total=0.8083s halo=0.7822s kernel=0.0261s io=0.0000s
+[gol] weak_4 ranks=4 dims=2x2 16384x16384 steps=1000 -> total=0.8100s halo=0.7841s kernel=0.0259s io=0.0000s
+[gol] weak_4 ranks=4 dims=2x2 16384x16384 steps=1000 -> total=0.7911s halo=0.7650s kernel=0.0261s io=0.0000s

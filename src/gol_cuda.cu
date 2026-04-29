@@ -195,3 +195,32 @@ extern "C" void gol_step_gpu_boundary(const uint8_t* d_in, uint8_t* d_out,
     int blocks = (perim + threads - 1) / threads;
     k_gol_boundary<<<blocks, threads, 0, stream>>>(d_in, d_out, lw, lh, stride);
 }
+
+/* -------- column pack / unpack (for halo exchange) -------- */
+__global__ void k_pack_col(uint8_t* __restrict__ dst,
+                           const uint8_t* __restrict__ src,
+                           int stride, int height) {
+    int y = blockIdx.x * blockDim.x + threadIdx.x;
+    if (y < height) dst[y] = src[y * stride];
+}
+
+__global__ void k_unpack_col(uint8_t* __restrict__ dst, int stride,
+                             const uint8_t* __restrict__ src, int height) {
+    int y = blockIdx.x * blockDim.x + threadIdx.x;
+    if (y < height) dst[y * stride] = src[y];
+}
+
+extern "C" void gol_pack_col(uint8_t* dst, const uint8_t* src,
+                             int stride, int height, cudaStream_t stream) {
+    int threads = 128;
+    int blocks = (height + threads - 1) / threads;
+    k_pack_col<<<blocks, threads, 0, stream>>>(dst, src, stride, height);
+}
+
+extern "C" void gol_unpack_col(uint8_t* dst, int stride,
+                               const uint8_t* src, int height,
+                               cudaStream_t stream) {
+    int threads = 128;
+    int blocks = (height + threads - 1) / threads;
+    k_unpack_col<<<blocks, threads, 0, stream>>>(dst, stride, src, height);
+}

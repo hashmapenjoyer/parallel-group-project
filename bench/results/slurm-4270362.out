@@ -1,0 +1,8 @@
+slurmstepd: error: Prolog hung on node dcs252
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] gpu_4 ranks=4 dims=2x2 8192x8192 steps=500 -> total=0.2457s halo=0.2327s kernel=0.0130s io=0.0000s
+[gol] gpu_4 ranks=4 dims=2x2 8192x8192 steps=500 -> total=0.2576s halo=0.2444s kernel=0.0131s io=0.0000s
+[gol] gpu_4 ranks=4 dims=2x2 8192x8192 steps=500 -> total=0.2099s halo=0.1963s kernel=0.0135s io=0.0000s

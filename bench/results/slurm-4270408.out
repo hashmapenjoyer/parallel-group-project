@@ -1,0 +1,20 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+serial 256x256 200 steps: 0.1836 s, 3885 alive
+serial 256x256 200 steps: 0.1317 s, 120 alive
+[gol]  ranks=1 dims=1x1 256x256 steps=200 -> total=0.0197s halo=0.0156s kernel=0.0041s io=0.0000s
+OK   1rank/naive/random
+[gol]  ranks=1 dims=1x1 256x256 steps=200 -> total=0.0192s halo=0.0153s kernel=0.0039s io=0.0000s
+OK   1rank/naive/rp
+[gol]  ranks=1 dims=1x1 256x256 steps=200 -> total=0.0200s halo=0.0157s kernel=0.0043s io=0.0000s
+OK   1rank/shared/random
+[gol]  ranks=1 dims=1x1 256x256 steps=200 -> total=0.0184s halo=0.0144s kernel=0.0040s io=0.0000s
+OK   1rank/shared/rp
+[gol]  ranks=1 dims=1x1 256x256 steps=200 -> total=0.0214s halo=0.0143s kernel=0.0071s io=0.0000s
+OK   1rank/overlap/random
+[gol]  ranks=1 dims=1x1 256x256 steps=200 -> total=0.0218s halo=0.0146s kernel=0.0072s io=0.0000s
+OK   1rank/overlap/rp
+[gol]  ranks=4 dims=2x2 256x256 steps=200 -> total=0.0753s halo=0.0673s kernel=0.0080s io=0.0000s
+OK   4rank/overlap/rp

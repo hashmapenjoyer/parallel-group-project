@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] io_100 ranks=6 dims=3x2 12288x12288 steps=500 -> total=0.2473s halo=0.2336s kernel=0.0137s io=0.0000s
+[gol] io_100 ranks=6 dims=3x2 12288x12288 steps=500 -> total=0.3048s halo=0.2913s kernel=0.0134s io=0.0000s
+[gol] io_100 ranks=6 dims=3x2 12288x12288 steps=500 -> total=0.2844s halo=0.2713s kernel=0.0131s io=0.0000s

@@ -33,12 +33,19 @@ dirs:
 	@mkdir -p $(BIN)
 
 # Shared objects (no USE_CUDA branching inside these files)
-$(BIN)/gol_mpi.o:      $(SRC)/gol_mpi.c      | dirs
-	$(MPICC) $(CFLAGS) -c -o $@ $<
 $(BIN)/gol_io.o:       $(SRC)/gol_io.c       | dirs
 	$(MPICC) $(CFLAGS) -c -o $@ $<
 $(BIN)/gol_cpu_step.o: $(SRC)/gol_cpu_step.c | dirs
 	$(CC)    $(CFLAGS) -c -o $@ $<
+
+# gol_mpi.c is compiled twice: once for the CPU build (uses MPI_Type_vector
+# for column halos) and once with -DUSE_CUDA for the GPU build (allocates
+# device scratch buffers and uses pack/unpack kernels because Spectrum
+# MPI's CUDA-aware path can't walk strided derived datatypes).
+$(BIN)/gol_mpi.o:     $(SRC)/gol_mpi.c | dirs
+	$(MPICC) $(CFLAGS) -c -o $@ $<
+$(BIN)/gol_mpi_gpu.o: $(SRC)/gol_mpi.c | dirs
+	$(MPICC) $(CFLAGS) -DUSE_CUDA -I$(CUDA_HOME)/include -c -o $@ $<
 
 # Serial reference
 $(BIN)/gol_serial: $(SRC)/gol_serial.c include/clockcycle.h | dirs
@@ -57,7 +64,7 @@ $(BIN)/main_gpu.o: $(SRC)/main.c | dirs
 $(BIN)/gol_cuda.o: $(SRC)/gol_cuda.cu | dirs
 	$(NVCC) $(NVFLAGS) -DUSE_CUDA -c -o $@ $<
 
-$(BIN)/gol_mpi_cuda: $(BIN)/main_gpu.o $(BIN)/gol_mpi.o $(BIN)/gol_io.o \
+$(BIN)/gol_mpi_cuda: $(BIN)/main_gpu.o $(BIN)/gol_mpi_gpu.o $(BIN)/gol_io.o \
                      $(BIN)/gol_cpu_step.o $(BIN)/gol_cuda.o
 	$(MPICC) $(CFLAGS) -o $@ $^ $(CUDA_LDFLAGS) $(LDFLAGS)
 

@@ -1,0 +1,8 @@
+slurmstepd: error: Prolog hung on node dcs211
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] cpu_1 ranks=1 dims=1x1 8192x8192 steps=500 -> total=134.0199s halo=0.0725s kernel=133.9472s io=0.0000s
+[gol] cpu_1 ranks=1 dims=1x1 8192x8192 steps=500 -> total=134.1451s halo=0.0739s kernel=134.0711s io=0.0000s
+[gol] cpu_1 ranks=1 dims=1x1 8192x8192 steps=500 -> total=134.0436s halo=0.0736s kernel=133.9698s io=0.0000s

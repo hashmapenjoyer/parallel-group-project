@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] weak_16 ranks=16 dims=4x4 32768x32768 steps=1000 -> total=0.8933s halo=0.8664s kernel=0.0268s io=0.0000s
+[gol] weak_16 ranks=16 dims=4x4 32768x32768 steps=1000 -> total=0.9273s halo=0.9003s kernel=0.0270s io=0.0000s
+[gol] weak_16 ranks=16 dims=4x4 32768x32768 steps=1000 -> total=0.9034s halo=0.8763s kernel=0.0270s io=0.0000s

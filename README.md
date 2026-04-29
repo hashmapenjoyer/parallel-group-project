@@ -38,8 +38,8 @@ Targets produced in `bin/`:
 # MPI / CPU, 4 ranks
 mpirun -n 4 ./bin/gol_mpi_cpu --w 1024 --h 1024 --steps 100 --mode cpu
 
-# MPI / CUDA on AiMOS (jsrun), 6 ranks per DCS node
-jsrun -n 6 -a 1 -c 4 -g 1 ./bin/gol_mpi_cuda \
+# MPI / CUDA on AiMOS (mpirun), 6 ranks per DCS node
+mpirun -n 6 ./bin/gol_mpi_cuda \
       --w 32768 --h 32768 --steps 1000 --mode gpu --kernel overlap \
       --csv bench/results/run.csv --label strong_6
 ```

@@ -1,0 +1,7 @@
+
+The following have been reloaded with a version change:
+  1) cuda/11.0 => cuda/11.2
+
+[gol] cpu_4 ranks=4 dims=2x2 8192x8192 steps=500 -> total=33.5939s halo=0.0653s kernel=33.5285s io=0.0000s
+[gol] cpu_4 ranks=4 dims=2x2 8192x8192 steps=500 -> total=33.6122s halo=0.0672s kernel=33.5449s io=0.0000s
+[gol] cpu_4 ranks=4 dims=2x2 8192x8192 steps=500 -> total=33.6278s halo=0.1071s kernel=33.5207s io=0.0000s
