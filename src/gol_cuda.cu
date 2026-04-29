@@ -33,7 +33,7 @@ __device__ __forceinline__ uint8_t gol_rule(uint8_t c, int n) {
     return (uint8_t)((c && (n == 2 || n == 3)) || (!c && n == 3));
 }
 
-/* -------- naive global-memory kernel -------- */
+// naive global-memory kernel
 __global__ void k_gol_naive(const uint8_t* __restrict__ in,
                             uint8_t* __restrict__ out,
                             int lw, int lh, int stride) {
@@ -54,10 +54,10 @@ __global__ void k_gol_naive(const uint8_t* __restrict__ in,
     out[IDX(x, y, stride)] = gol_rule(in[IDX(x, y, stride)], n);
 }
 
-/* -------- shared-memory tiled kernel --------
- * Each block loads a (BX+2) x (BY+2) tile into shared memory cooperatively.
- * Threads with low ids do the extra halo loads.
- */
+// shared-memory tiled kernel
+// Each block loads a (BX+2) x (BY+2) tile into shared memory cooperatively.
+// Threads with low ids do the extra halo loads.
+
 __global__ void k_gol_shared(const uint8_t* __restrict__ in,
                              uint8_t* __restrict__ out,
                              int lw, int lh, int stride) {
@@ -67,11 +67,11 @@ __global__ void k_gol_shared(const uint8_t* __restrict__ in,
     int gx = blockIdx.x * BX + tx + 1;
     int gy = blockIdx.y * BY + ty + 1;
 
-    /* Centre cell -- valid even past the interior, since halos exist. */
+    //  Center cell valid even pas the interior, since halos exist.
     if (gx <= lw + 1 && gy <= lh + 1)
         s[ty + 1][tx + 1] = in[IDX(gx, gy, stride)];
 
-    /* Halo edges */
+    // Halo edges
     if (tx == 0 && gx >= 1 && gy <= lh + 1)
         s[ty + 1][0] = in[IDX(gx - 1, gy, stride)];
     if (tx == BX - 1 && gx <= lw && gy <= lh + 1)
@@ -81,7 +81,7 @@ __global__ void k_gol_shared(const uint8_t* __restrict__ in,
     if (ty == BY - 1 && gy <= lh && gx <= lw + 1)
         s[BY + 1][tx + 1] = in[IDX(gx, gy + 1, stride)];
 
-    /* Halo corners */
+    // Halo corners
     if (tx == 0 && ty == 0)
         s[0][0] = in[IDX(gx - 1, gy - 1, stride)];
     if (tx == BX - 1 && ty == 0)
@@ -103,7 +103,7 @@ __global__ void k_gol_shared(const uint8_t* __restrict__ in,
     out[IDX(gx, gy, stride)] = gol_rule(s[ty + 1][tx + 1], n);
 }
 
-/* -------- interior-only kernel (skip outermost interior ring) -------- */
+// interior-only kernel (skip outermost interior ring) 
 __global__ void k_gol_interior(const uint8_t* __restrict__ in,
                                uint8_t* __restrict__ out,
                                int lw, int lh, int stride) {
@@ -124,9 +124,9 @@ __global__ void k_gol_interior(const uint8_t* __restrict__ in,
     out[IDX(x, y, stride)] = gol_rule(in[IDX(x, y, stride)], n);
 }
 
-/* -------- boundary-only kernel: outermost interior ring --------
- * Launched as a 1D grid covering the perimeter of (lw,lh).
- */
+// Boundary-only kernel: outermost interior ring --------
+// Launched as a 1D grid covering the perimeter of (lw,lh).
+// 
 __global__ void k_gol_boundary(const uint8_t* __restrict__ in,
                                uint8_t* __restrict__ out,
                                int lw, int lh, int stride) {
@@ -158,7 +158,7 @@ __global__ void k_gol_boundary(const uint8_t* __restrict__ in,
     out[IDX(x, y, stride)] = gol_rule(in[IDX(x, y, stride)], n);
 }
 
-/* -------- host wrappers -------- */
+// host wrappers
 
 extern "C" void gol_step_gpu(const uint8_t* d_in, uint8_t* d_out,
                              int lw, int lh, cudaStream_t stream) {

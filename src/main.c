@@ -33,9 +33,9 @@ typedef struct {
     int global_w, global_h;
     int steps;
     int trial;
-    const char* mode;     /* "cpu" or "gpu" */
-    const char* kernel;   /* "naive" / "shared" / "overlap" */
-    const char* init;     /* "random" / "blinker" / "glider" / "r-pentomino" */
+    const char* mode;     // "cpu" or "gpu"
+    const char* kernel;   // "naive" / "shared" / "overlap"
+    const char* init;     // "random" / "blinker" / "glider" / "r-pentomino"
     uint64_t seed;
     double density;
     int checkpoint_every;
@@ -47,7 +47,7 @@ typedef struct {
 
 static void usage(const char* prog) {
     fprintf(stderr,
-        "usage: %s [--w W] [--h H] [--steps N] [--mode cpu|gpu]\n"
+        "usage: %s [--w WIDTH] [--h HEIGHT] [--steps N] [--mode cpu|gpu]\n"
         "          [--kernel naive|shared|overlap] [--init NAME]\n"
         "          [--seed S] [--density D] [--trial T]\n"
         "          [--checkpoint-every K] [--checkpoint PATH]\n"
@@ -55,31 +55,31 @@ static void usage(const char* prog) {
         prog);
 }
 
-static void parse_args(int argc, char** argv, args_t* a) {
-    a->global_w = 1024; a->global_h = 1024;
-    a->steps = 100; a->trial = 0;
-    a->mode = "gpu"; a->kernel = "naive"; a->init = "random";
-    a->seed = 1; a->density = 0.3;
-    a->checkpoint_every = 0;
-    a->checkpoint_path = "checkpoint.bin";
-    a->dump_final = NULL; a->csv_path = NULL; a->label = "";
+static void parse_args(int argc, char** argv, args_t* args) {
+    args->global_w = 1024; args->global_h = 1024;
+    args->steps = 100; args->trial = 0;
+    args->mode = "gpu"; args->kernel = "naive"; args->init = "random";
+    args->seed = 1; args->density = 0.3;
+    args->checkpoint_every = 0;
+    args->checkpoint_path = "checkpoint.bin";
+    args->dump_final = NULL; args->csv_path = NULL; args->label = "";
     for (int i = 1; i < argc; ++i) {
         const char* k = argv[i];
         const char* v = (i + 1 < argc) ? argv[i + 1] : NULL;
-        if      (!strcmp(k, "--w") && v)               { a->global_w = atoi(v); ++i; }
-        else if (!strcmp(k, "--h") && v)               { a->global_h = atoi(v); ++i; }
-        else if (!strcmp(k, "--steps") && v)           { a->steps = atoi(v); ++i; }
-        else if (!strcmp(k, "--mode") && v)            { a->mode = v; ++i; }
-        else if (!strcmp(k, "--kernel") && v)          { a->kernel = v; ++i; }
-        else if (!strcmp(k, "--init") && v)            { a->init = v; ++i; }
-        else if (!strcmp(k, "--seed") && v)            { a->seed = strtoull(v, NULL, 10); ++i; }
-        else if (!strcmp(k, "--density") && v)         { a->density = atof(v); ++i; }
-        else if (!strcmp(k, "--trial") && v)           { a->trial = atoi(v); ++i; }
-        else if (!strcmp(k, "--checkpoint-every") && v){ a->checkpoint_every = atoi(v); ++i; }
-        else if (!strcmp(k, "--checkpoint") && v)      { a->checkpoint_path = v; ++i; }
-        else if (!strcmp(k, "--dump-final") && v)      { a->dump_final = v; ++i; }
-        else if (!strcmp(k, "--csv") && v)             { a->csv_path = v; ++i; }
-        else if (!strcmp(k, "--label") && v)           { a->label = v; ++i; }
+        if      (!strcmp(k, "--w") && v)               { args->global_w = atoi(v); ++i; }
+        else if (!strcmp(k, "--h") && v)               { args->global_h = atoi(v); ++i; }
+        else if (!strcmp(k, "--steps") && v)           { args->steps = atoi(v); ++i; }
+        else if (!strcmp(k, "--mode") && v)            { args->mode = v; ++i; }
+        else if (!strcmp(k, "--kernel") && v)          { args->kernel = v; ++i; }
+        else if (!strcmp(k, "--init") && v)            { args->init = v; ++i; }
+        else if (!strcmp(k, "--seed") && v)            { args->seed = strtoull(v, NULL, 10); ++i; }
+        else if (!strcmp(k, "--density") && v)         { args->density = atof(v); ++i; }
+        else if (!strcmp(k, "--trial") && v)           { args->trial = atoi(v); ++i; }
+        else if (!strcmp(k, "--checkpoint-every") && v){ args->checkpoint_every = atoi(v); ++i; }
+        else if (!strcmp(k, "--checkpoint") && v)      { args->checkpoint_path = v; ++i; }
+        else if (!strcmp(k, "--dump-final") && v)      { args->dump_final = v; ++i; }
+        else if (!strcmp(k, "--csv") && v)             { args->csv_path = v; ++i; }
+        else if (!strcmp(k, "--label") && v)           { args->label = v; ++i; }
         else if (!strcmp(k, "--help") || !strcmp(k, "-h")) { usage(argv[0]); exit(0); }
         else { fprintf(stderr, "unknown arg: %s\n", k); usage(argv[0]); exit(1); }
     }
@@ -120,18 +120,18 @@ int main(int argc, char** argv) {
 
 #ifdef USE_CUDA
     if (use_gpu) {
-        cudaMalloc((void**)&cur, bytes);
-        cudaMalloc((void**)&nxt, bytes);
+        cudaMalloc((void**) &cur, bytes);
+        cudaMalloc((void**) &nxt, bytes);
         cudaMemset(cur, 0, bytes);
         cudaMemset(nxt, 0, bytes);
     } else
 #endif
     {
-        cur = (uint8_t*)calloc(bytes, 1);
-        nxt = (uint8_t*)calloc(bytes, 1);
+        cur = (uint8_t*) calloc(bytes, 1);
+        nxt = (uint8_t*) calloc(bytes, 1);
     }
 
-    /* Seed into a host buffer, then copy to device if needed. */
+    // Seed into a host buffer, then copy to device if needed.
     uint8_t* seedbuf = use_gpu ? (uint8_t*)calloc(bytes, 1) : cur;
     if (!strcmp(a.init, "random"))
         gol_seed_random(seedbuf, &topo, a.seed, a.density);
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    /* Per-phase timing accumulators. */
+    // Per-phase timing accumulators.
     double t_halo = 0.0, t_kernel = 0.0, t_io = 0.0;
     uint64_t T0 = clock_now();
 
@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
     uint64_t T1 = clock_now();
     double t_total = clock_seconds(T0, T1);
 
-    /* Final dump (host-side gather; do this only on small grids). */
+    // Final dump (host-side gather; do this only on small grids).
     if (a.dump_final) {
 #ifdef USE_CUDA
         uint8_t* host_buf = use_gpu ? (uint8_t*)malloc(bytes) : cur;
@@ -233,7 +233,7 @@ int main(int argc, char** argv) {
 #endif
     }
 
-    /* CSV timing. Append-only; rank 0 writes; header if file doesn't exist. */
+    // CSV timing. Append-only; rank 0 writes; header if file doesn't exist.
     if (a.csv_path && topo.rank == 0) {
         FILE* f = fopen(a.csv_path, "r");
         int new_file = (f == NULL);

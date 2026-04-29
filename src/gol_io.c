@@ -31,7 +31,7 @@ static uint64_t xorshift64(uint64_t* s) {
 
 void gol_seed_random(uint8_t* grid, const gol_topology_t* t,
                      uint64_t seed, double density) {
-    /* Per-rank deterministic seed so output is reproducible per (seed, P). */
+    // Per-rank deterministic seed so output is reproducible per (seed, P).
     uint64_t s = seed ^ ((uint64_t)t->rank * 0x9E3779B97F4A7C15ULL);
     if (s == 0) s = 1;
     uint64_t threshold = (uint64_t)(density * (double)UINT64_MAX);
@@ -44,10 +44,9 @@ void gol_seed_random(uint8_t* grid, const gol_topology_t* t,
     }
 }
 
-void gol_seed_pattern(uint8_t* grid, const gol_topology_t* t,
-                      int global_w, int global_h, const char* name) {
+void gol_seed_pattern(uint8_t* grid, const gol_topology_t* t, int global_w, int global_h, const char* name) {
     int cx = global_w / 2, cy = global_h / 2;
-    int my_x0 = t->coords[1] * t->local_w; /* global x of my (1,?) col */
+    int my_x0 = t->coords[1] * t->local_w; // global x of my (1,?) col
     int my_y0 = t->coords[0] * t->local_h;
 
     int pts[5][2] = {{0,0}};
@@ -86,8 +85,8 @@ void gol_seed_pattern(uint8_t* grid, const gol_topology_t* t,
 
 double gol_checkpoint_write(const uint8_t* grid, const gol_topology_t* t,
                             int global_w, int global_h, const char* path) {
-    /* Pack the local interior into a contiguous buffer to avoid having
-     * to describe a strided file view AND a strided memory view. */
+    // Pack the local interior into a contiguous buffer to avoid having
+    // to describe a strided file view AND a strided memory view.
     size_t local_bytes = (size_t)t->local_w * t->local_h;
     uint8_t* buf = (uint8_t*)malloc(local_bytes);
     const size_t aw = t->alloc_w;
@@ -124,7 +123,7 @@ double gol_checkpoint_write(const uint8_t* grid, const gol_topology_t* t,
 
 void gol_dump_pbm(const uint8_t* grid, const gol_topology_t* t,
                   int global_w, int global_h, const char* path) {
-    /* Pack interior, gather to rank 0, write a P4 PBM. */
+    // Pack interior, gather to rank 0, write a P4 PBM.
     size_t local_bytes = (size_t)t->local_w * t->local_h;
     uint8_t* sendbuf = (uint8_t*)malloc(local_bytes);
     const size_t aw = t->alloc_w;
@@ -137,9 +136,9 @@ void gol_dump_pbm(const uint8_t* grid, const gol_topology_t* t,
     uint8_t* recvbuf = NULL;
     if (t->rank == 0) recvbuf = (uint8_t*)malloc((size_t)global_w * global_h);
 
-    /* Gather assumes rank order matches Cart order (which Cart_create may
-     * have reordered). For a small verification dump this is fine; we
-     * reconstruct using each rank's coords below. */
+    // Gather assumes rank order matches Cart order (which Cart_create may
+    // have reordered). For a small verification dump this is fine; we
+    // reconstruct using each rank's coords below.
     int* all_coords = NULL;
     if (t->rank == 0) all_coords = (int*)malloc((size_t)t->size * 2 * sizeof(int));
     MPI_Gather(t->coords, 2, MPI_INT, all_coords, 2, MPI_INT, 0, t->cart);
