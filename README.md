@@ -74,22 +74,3 @@ mpirun -n 4 ./bin/gol_mpi_cpu --w 256 --h 256 --steps 100 \
 
 Mirror: `https://github.com/<user>/parallel-group-project` (GitHub link
 included here in case the Submitty tarball is too large.)
-
-## Key design decisions
-
-- **Cells:** `uint8_t`, double-buffered, halo'd tile of `(local_w+2) x
-  (local_h+2)` per rank.
-- **Decomposition:** `MPI_Dims_create` chooses a balanced 2D grid;
-  `MPI_Cart_create` with `periods={1,1}` for a torus.
-- **Halo exchange:** E/W column exchange first (using
-  `MPI_Type_vector`), then N/S row exchange (whole rows of length
-  `local_w+2`). Corner cells are populated implicitly because the N/S
-  rows include the W/E halos written by the previous phase.
-- **CUDA kernels:** three variants -- naive global memory, shared-memory
-  tiled (32x8 block + 1-cell halo), and an interior/boundary split for
-  comm/comp overlap. The overlap variant launches the interior kernel
-  on one stream, exchanges halos concurrently, then launches the
-  boundary-only kernel.
-- **MPI I/O:** optional collective subarray-view checkpoint write.
-- **Timing:** POWER9 cycle counter (`mftb`) on AiMOS, `clock_gettime`
-  fallback on x86.
